@@ -29,8 +29,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build via docker compose
-        run: docker compose --env-file .env build
+      # - name: Build via docker compose
+      #   run: docker compose --env-file .env build
 
-      - name: Push image
-        run: docker compose --env-file .env push
+      - name: Build and Push via Docker Compose
+        run: |
+          # Формируем имя для GHCR (обязательно в нижнем регистре)
+          TARGET_IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}/vlm_captioning:latest
+          
+          # Запускаем сборку и пуш одной командой. 
+          # Переменная IMAGE передается только для этого процесса.
+          IMAGE=$TARGET_IMAGE docker compose --env-file .env build --push
