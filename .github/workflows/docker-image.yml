@@ -30,7 +30,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build
-        run: docker compose build
+        run: docker compose --env-file .env build
 
       - name: Push
         uses: docker/build-push-action@v5
