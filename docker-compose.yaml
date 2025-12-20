@@ -1,0 +1,13 @@
+services:
+  app:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VLM_MODEL_REPO: ${VLM_MODEL_REPO}
+        IMAGE_PROCESSOR_FILENAME: ${IMAGE_PROCESSOR_FILENAME}
+        VLM_MODEL_FILENAME: ${VLM_MODEL_FILENAME}
+    ports:
+      - "8501:8501"
