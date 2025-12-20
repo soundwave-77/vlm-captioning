@@ -1,5 +1,5 @@
 services:
-  app:
+  vlm_captioning:
     env_file:
       - .env
     build:

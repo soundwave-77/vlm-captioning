@@ -32,5 +32,16 @@ jobs:
       - name: Build via docker compose
         run: docker compose --env-file .env build
 
-      - name: Push via docker compose
-        run: docker compose --env-file .env push
+      - name: Tag and Push image
+        run: |
+          # Тег для GHCR
+          IMAGE_NAME=ghcr.io/${GITHUB_ACTOR}/vlm_captioning:latest
+          
+          # Получаем ID образа, который собрал docker compose
+          IMAGE_ID=$(docker compose images -q vlm_captioning)
+          
+          # Тегируем образ
+          docker tag $IMAGE_ID $IMAGE_NAME
+          
+          # Пушим образ в GHCR
+          docker push $IMAGE_NAME
