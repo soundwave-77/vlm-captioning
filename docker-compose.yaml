@@ -1,5 +1,6 @@
 services:
   vlm_captioning:
+    image: ghcr.io/${GITHUB_ACTOR}/vlm_captioning:latest
     env_file:
       - .env
     build:

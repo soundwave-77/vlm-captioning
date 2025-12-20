@@ -32,15 +32,5 @@ jobs:
       - name: Build via docker compose
         run: docker compose --env-file .env build
 
-      - name: Tag and Push image
-        run: |
-          IMAGE_NAME=ghcr.io/${GITHUB_ACTOR}/vlm_captioning:latest
-          IMAGE_ID=$(docker compose images -q vlm_captioning)
-          
-          if [ -z "$IMAGE_ID" ]; then
-            echo "ERROR: Image ID not found. Build failed?"
-            exit 1
-          fi
-          
-          docker tag $IMAGE_ID $IMAGE_NAME
-          docker push $IMAGE_NAME
+      - name: Push image
+        run: docker compose --env-file .env push
