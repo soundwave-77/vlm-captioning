@@ -1,4 +1,4 @@
-name: Build and Publish Docker Image
+name: Build and Push Multi-Arch Docker Image
 
 on:
   push:
@@ -29,8 +29,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build via docker compose
-        run: docker compose --env-file .env build
+      - name: Build and push multi-arch image
+        run: |
+          # Загружаем переменные из .env
+          export $(grep -v '^#' .env | xargs)
 
-      - name: Push image
-        run: docker compose push
+          docker buildx create --use --name vlm-builder
+
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --build-arg VLM_MODEL_REPO=${VLM_MODEL_REPO} \
+            --build-arg IMAGE_PROCESSOR_FILENAME=${IMAGE_PROCESSOR_FILENAME} \
+            --build-arg VLM_MODEL_FILENAME=${VLM_MODEL_FILENAME} \
+            -t ghcr.io/${{ github.actor }}/vlm_captioning:latest \
+            --push .
