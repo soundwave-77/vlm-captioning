@@ -10,5 +10,9 @@ services:
         VLM_MODEL_REPO: ${VLM_MODEL_REPO}
         IMAGE_PROCESSOR_FILENAME: ${IMAGE_PROCESSOR_FILENAME}
         VLM_MODEL_FILENAME: ${VLM_MODEL_FILENAME}
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64
     ports:
       - "8501:8501"
