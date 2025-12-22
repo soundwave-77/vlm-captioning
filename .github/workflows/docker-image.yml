@@ -45,7 +45,7 @@ jobs:
             ghcr.io/${{ github.actor }}/vlm_captioning:amd64
 
   build-arm64:
-    runs-on: macos-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2204-arm
 
     permissions:
       contents: read
