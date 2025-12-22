@@ -17,6 +17,9 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
+ENV CMAKE_ARGS="-DLLAMA_NATIVE=OFF -DLLAMA_NEON=OFF"
+ENV FORCE_CMAKE=1
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 RUN hf download ${VLM_MODEL_REPO} ${VLM_MODEL_FILENAME} ${IMAGE_PROCESSOR_FILENAME}
