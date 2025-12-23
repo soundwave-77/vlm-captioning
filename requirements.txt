@@ -1,5 +1,4 @@
 streamlit
-llama-cpp-python
 pillow
 ruff
 huggingface-hub
