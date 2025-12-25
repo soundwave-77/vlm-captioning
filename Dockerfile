@@ -17,28 +17,10 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-ENV CMAKE_ARGS="\
-  -DLLAMA_NATIVE=OFF \
-  -DLLAMA_AVX=OFF \
-  -DLLAMA_AVX2=OFF \
-  -DLLAMA_FMA=OFF \
-  -DLLAMA_F16C=OFF \
-  -DLLAMA_NEON=OFF \
-  -DLLAMA_ARM_DOTPROD=OFF \
-  -DLLAMA_SVE=OFF \
-  -DLLAMA_SVE2=OFF \
-"
-ENV GGML_NO_CPU_EXTENSIONS=1
-ENV FORCE_CMAKE=1
-
-RUN pip install --upgrade --force-reinstall llama-cpp-python --no-cache-dir
-
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 RUN hf download ${VLM_MODEL_REPO} ${VLM_MODEL_FILENAME} ${IMAGE_PROCESSOR_FILENAME}
 
 COPY src ./app
-
-ENV PYTHONUNBUFFERED=1
 
 CMD ["streamlit", "run", "app/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
